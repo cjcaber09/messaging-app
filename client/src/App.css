@@ -1,0 +1,437 @@
+@import "tailwindcss";
+
+.container, .message-bubble {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px); /* Safari support */
+}
+.container{
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.name {
+  font-family: var(--heading);
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+
+.sidebar,.message-content{
+  @apply min-h-[400px] py-4 px-8; 
+}
+
+.img-placeholder{
+  @apply w-12 h-12 rounded-full bg-blue-200;
+}
+
+.spacer{
+  @apply border-t border-white/10 my-4
+}
+.messages {
+  @apply w-full flex flex-col gap-2 max-h-[50svh];
+}
+.message-bubble{
+  @apply max-w-[400px] min-w-[100px] text-left py-2 px-6;
+}
+.to-sender{
+  @apply self-start;
+}
+.from-sender{
+  @apply self-end;
+}
+
+/* sidebar */
+.sidebar{
+  /* @apply mt-2 */
+}
+.inbox-people{
+  @apply flex flex-row gap-4 mt-4 border-b-1 pb-2 border-white/10;
+}
+.inbox-people >.img-placeholder{
+  @apply ml-auto;
+}
+.contact-details{
+  @apply flex-1 text-left;
+}
+.contact-actions{
+  @apply mr-auto;
+}
+
+
+
+/* Scroll */
+/* ── Custom Scrollbar ── */
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 100px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.40);
+}
+/* COMPONENTS */
+
+/* ────────────────────────────────────────────
+   BUTTONS
+──────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.12s;
+  font-family: inherit;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Primary */
+.btn-primary {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+.btn-primary:hover {
+  background: rgba(255, 255, 255, 0.30);
+}
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: rgba(200, 235, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Danger */
+.btn-danger {
+  background: rgba(239, 68, 68, 0.20);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.30);
+}
+
+/* Icon Button */
+.btn-icon {
+  padding: 9px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  color: #e0f4ff;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-size: 16px;
+}
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ────────────────────────────────────────────
+   INPUTS
+──────────────────────────────────────────── */
+input[type="text"],
+textarea {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 10px;
+  color: #e0f4ff !important;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 9px 14px;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: rgba(200, 235, 255, 0.45) !important;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: rgba(255, 255, 255, 0.50);
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+/* Input with icon */
+.input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 15px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.input-has-icon input[type="text"] {
+  padding-left: 36px;
+}
+
+/* ────────────────────────────────────────────
+   BADGES & STATUS
+──────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-online {
+  background: rgba(74, 222, 128, 0.18);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.30);
+}
+
+.badge-away {
+  background: rgba(251, 191, 36, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.30);
+}
+
+.badge-offline {
+  background: rgba(148, 163, 184, 0.18);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.30);
+}
+
+.badge-new {
+  background: rgba(99, 179, 237, 0.22);
+  color: #93c5fd;
+  border: 1px solid rgba(99, 179, 237, 0.35);
+}
+
+/* Status dot */
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-online  { background: #4ade80; }
+.dot-away    { background: #fbbf24; }
+.dot-offline { background: #94a3b8; }
+
+/* Friend ID Chip */
+.id-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  color: rgba(200, 235, 255, 0.65);
+}
+
+/* ────────────────────────────────────────────
+   AVATARS
+──────────────────────────────────────────── */
+.img-placeholder {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  color: #fff;
+  position: relative;
+}
+
+.img-placeholder-sm  { width: 32px; height: 32px; font-size: 11px; }
+.img-placeholder-md  { width: 44px; height: 44px; font-size: 15px; }
+.img-placeholder-lg  { width: 56px; height: 56px; font-size: 19px; }
+
+.img-placeholder-status {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #1a3a4f;
+}
+
+/* ────────────────────────────────────────────
+   MESSAGE BUBBLES
+──────────────────────────────────────────── */
+.bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.bubble {
+  padding: 11px 15px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 90%;
+}
+
+.bubble-them {
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e0f4ff;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.bubble-me {
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.bubble-time {
+  font-size: 11px;
+  color: rgba(200, 235, 255, 0.45);
+  margin-top: 2px;
+}
+
+.bubble-them + .bubble-time { align-self: flex-start; margin-left: 2px; }
+.bubble-me   + .bubble-time { align-self: flex-end;   margin-right: 2px; }
+
+/* ────────────────────────────────────────────
+   CONTACT ROWS
+──────────────────────────────────────────── */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.contact-row:hover  { background: rgba(255, 255, 255, 0.10); }
+.contact-row.active { background: rgba(255, 255, 255, 0.16); }
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0f4ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-meta {
+  font-size: 12px;
+  color: rgba(200, 235, 255, 0.50);
+  font-family: 'Courier New', monospace;
+}
+
+.contact-preview {
+  font-size: 12px;
+  color: rgba(200, 235, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* ────────────────────────────────────────────
+   NOTIFICATION TOAST
+──────────────────────────────────────────── */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  max-width: 320px;
+}
+
+.toast-icon  { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.toast-title { font-size: 14px; font-weight: 600; color: #e0f4ff; }
+.toast-body  { font-size: 13px; color: rgba(200, 235, 255, 0.65); margin-top: 2px; }
+
+/* ────────────────────────────────────────────
+   MESSAGE INPUT BAR
+──────────────────────────────────────────── */
+.msg-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  max-width: 480px;
+}
+
+.msg-bar input[type="text"] {
+  border: none !important;
+  background: transparent !important;
+  padding: 4px 0;
+  flex: 1;
+  font-size: 14px;
+  width: auto;
+  color: #e0f4ff !important;
+}
+
+.msg-bar input[type="text"]:focus {
+  border: none !important;
+  background: transparent !important;
+}
+
+.msg-bar input[type="text"]::placeholder {
+  color: rgba(200, 235, 255, 0.45) !important;
+}
