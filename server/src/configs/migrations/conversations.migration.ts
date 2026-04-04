@@ -5,6 +5,7 @@ CREATE TYPE conversation_type as ENUM ('direct','group');
 Create TABLE IF NOT EXISTS conversations (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     type conversation_type NOT NULL DEFAULT 'direct',
+    conversation_name varchar(500),
     created_at timestamptz NOT NULL DEFAULT NOW()
 );
 DROP INDEX IF EXISTS idx_conversation_id;

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS messages (
   created_at      TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
   deleted_at      TIMESTAMPTZ                            
   );
+  
   DROP INDEX IF EXISTS idx_msg_conversation_id;
   CREATE INDEX idx_msg_conversation_id on conversations(id);
   DROP INDEX IF EXISTS idx_msg_sender_id;
