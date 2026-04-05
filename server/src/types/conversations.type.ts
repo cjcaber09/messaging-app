@@ -5,4 +5,4 @@ export interface conversationTypes {
   created_at: Date;
 }
 
-export type conversationIdType = Pick<conversationTypes, "id">;
+export type conversationIdType = string;

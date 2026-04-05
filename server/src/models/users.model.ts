@@ -1,7 +1,6 @@
 import pool from "../configs/db";
 import { UserRegisterType, UserEmail } from "../types/users.types";
 import { removePassword } from "../utils/utils";
-import bcrypt from "bcryptjs";
 
 export const GetUserByEmailModel = async (whereClause: UserEmail) => {
   try {

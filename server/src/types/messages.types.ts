@@ -32,5 +32,11 @@ export type messageId = Pick<messageTypes, "id">;
 
 export type messageCreate = Omit<
   messageTypes,
-  "is_edited" | "edited_at" | "id" | "is_edited" | "deleted_at" | "created_at"
+  | "is_edited"
+  | "edited_at"
+  | "id"
+  | "is_edited"
+  | "deleted_at"
+  | "created_at"
+  | "status"
 >;

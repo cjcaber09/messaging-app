@@ -10,8 +10,8 @@ import Joi from "joi";
 
 export const messageValidation = Joi.object({
   conversation_id: Joi.string().uuid().required(),
-  parent_id: Joi.string().uuid(),
+  parent_id: Joi.string().uuid().optional(),
   content: Joi.string().min(1).max(200).required(),
-  message_type: Joi.string(),
+  message_type: Joi.string().valid("text", "image"),
   status: Joi.string(),
 });

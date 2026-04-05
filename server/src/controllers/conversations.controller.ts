@@ -17,6 +17,5 @@ export const createConversation = async (req: Request, res: Response) => {
   const exist = await CheckConversation(members);
   if (exist) sendError(res, [], "Conversation already exist.", 404);
   const conversation = await StoreConversation(type, members);
-  //   console.log(conversation);
   sendSuccessResponse(res, conversation);
 };

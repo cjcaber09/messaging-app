@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS conversation_members (
     user_id uuid NOT NULL references users(id) ON DELETE CASCADE, 
     role role_type NOT NULL DEFAULT 'admin', 
     joined_at timestamptz NOT NULL DEFAULT NOW(), 
-    left_at timestamptz NOT NULL DEFAULT NOW()
+    left_at timestamptz
 );
 
 DROP INDEX IF EXISTS idx_cm_conversation_id;

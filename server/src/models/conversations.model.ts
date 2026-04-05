@@ -57,10 +57,12 @@ export const CheckConversation = async (members: MembersTypes[]) => {
 
 export const getConversationById = async (id: conversationIdType) => {
   try {
-    const query = `SELECT * FROM conversations WHERE id = $1`;
+    const query = `SELECT * FROM conversations WHERE id = $1::uuid`;
     const { rows } = await pool.query(query, [id]);
     if (rows.length > 0) {
       return rows;
     } else return false;
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
 };
