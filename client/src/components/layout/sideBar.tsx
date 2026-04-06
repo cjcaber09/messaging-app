@@ -1,11 +1,10 @@
 export default function Sidebar() {
     return (
-        <div className="container w-[400px] sidebar">
-            <div className="inbox-header">
-                Inbox</div>
-            {Contacts()}
-            {Contacts()}
-        </div>
+      <div className="container max-w-[400px] sidebar">
+        <div className="inbox-header">Inbox</div>
+        {Contacts()}
+        {Contacts()}
+      </div>
     );
 
 }

@@ -8,7 +8,11 @@ declare global {
     }
   }
 }
-
+interface AuthRequest extends Request {
+  cookies: {
+    token?: string;
+  };
+}
 export type ParamRequest<P> = ParamsDictionary & Request<P>;
 export type BodyRequest<B> = Request<{}, {}, B>;
 export type QueryRequest<Q> = Request<{}, {}, {}, Q>;

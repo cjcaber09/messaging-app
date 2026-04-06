@@ -1,5 +1,5 @@
-import { BodyRequest, QueryRequest } from "../types/express";
-import { Response } from "express";
+import { AuthRequest, BodyRequest, QueryRequest } from "../types/express";
+import { request, Response } from "express";
 import { UserRegisterType, UserAuthType } from "../types/users.types";
 import { GetUserByEmailModel, StoreUserModel } from "../models/users.model";
 import bcrypt from "bcryptjs";
@@ -25,6 +25,14 @@ export const loginUser = async (
   let signed = bcrypt.compare(password, found.password);
   if (!signed) return res.status(403).send("Invalid email or password.");
   const token = await generateToken(found);
+  // Set token
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 1000 * 60 * 60 * 24,
+  });
+
   res.status(200).send({ user: removePassword(found), token });
 };
 
@@ -50,5 +58,17 @@ export const createUser = async (
     firstname,
     is_active,
   });
-  res.send(stored);
+  const token = await generateToken(stored);
+  // Set token
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 1000 * 60 * 60 * 24,
+  });
+  res.send({ user: stored, token });
+};
+
+export const authUser = async (req: AuthRequest, res: Response) => {
+  const token = req.cookies.token;
 };
