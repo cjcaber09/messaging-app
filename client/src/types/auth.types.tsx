@@ -24,10 +24,15 @@ export const registerSchema = z
 
 export type RegisterData = z.infer<typeof registerSchema>;
 
-export type UserData = z.infer<{
-  user: typeof registerSchema;
-  token: string;
-}>;
+export type UserData = {
+  id: string;
+  email: string;
+  username: string;
+  firstname: string;
+  lastname: string;
+  is_active?: boolean;
+  is_verified?: boolean;
+} | null;
 
 export const loginSchema = z.object({
   email: z.email({ message: "Invalid email" }),

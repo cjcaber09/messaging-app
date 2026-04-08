@@ -9,7 +9,8 @@ export const AuthenticateUser = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  let token = req.headers.authorization?.split(" ")[1];
+  if (!token) token = req.cookies?.token;
   if (!token) return res.status(404).send("Authorization required.");
   try {
     if (!process.env.SECRET_KEY) {

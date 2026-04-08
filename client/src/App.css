@@ -18,27 +18,35 @@
 }
 
 .sidebar,.message-content{
-  @apply min-h-[400px] py-4 px-8; 
+  @apply min-h-[400px] py-4; 
 }
 
 .img-placeholder{
   @apply w-12 h-12 rounded-full bg-blue-200;
 }
-
+.message-header{
+  @apply  flex flex-row gap-4 border-b-1 pb-4 border-white/10
+}
 .spacer{
   @apply border-t border-white/10 
 }
 .messages {
-  @apply w-full flex flex-col gap-2 max-h-[50svh];
+  @apply w-full max-h-[50svh];
+}
+.message-board {
+  @apply flex flex-col gap-4 min-h-[200px]  justify-center
 }
 .message-bubble{
   @apply max-w-[400px] min-w-[100px] text-left py-2 px-6;
 }
-.to-sender{
-  @apply self-start;
+.message-actions{
+  @apply flex flex-row gap-4 border-t-1 pt-4 border-white/10
 }
-.from-sender{
-  @apply self-end;
+.sending-direction{
+  @apply justify-self-start;
+}
+.receiving-direction{
+  @apply justify-self-end;
 }
 
 /* sidebar */

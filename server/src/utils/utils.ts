@@ -18,6 +18,11 @@ export const removePassword = (userdata: UserTypes) => {
   return noPassword;
 };
 
+export const decodeToken = async (token: string) => {
+  if (!process.env.SECRET_KEY) throw new Error("test");
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+  return decoded;
+};
 export const sendSuccessResponse = (
   res: Response,
   data: any = [],

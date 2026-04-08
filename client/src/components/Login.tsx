@@ -1,8 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginData } from "../types/auth.types";
-
+import {
+  loginSchema,
+  type LoginData,
+  type UserData,
+} from "../types/auth.types";
+import { authApi } from "../api/auth.api";
+import { UseAuth } from "../context/authProvider";
 export default function Login() {
+const { setAuth } = UseAuth();
   const {
     register,
     handleSubmit,
@@ -11,7 +17,12 @@ export default function Login() {
     mode: "onChange",
     resolver: zodResolver(loginSchema),
   });
-  const onSubmit = (data: LoginData) => console.log(data);
+  const onSubmit = async (data: LoginData) => {
+    const isAuthenticated = await authApi.login(data);
+    if (!isAuthenticated) console.log(isAuthenticated);
+    const result: { user: UserData } = isAuthenticated.data;
+    setAuth(result.user);
+  };
   return (
     <>
       <div className="h-[100svh] items-center place-items-center content-center">
@@ -61,7 +72,7 @@ export default function Login() {
                 </button>
                 <div className="text-xs mt-2 ">
                   Dont have an account yet?{" "}
-                  <a href="#" className="underline text-sky-300">
+                  <a href="/register" className="underline text-sky-300">
                     Register Now
                   </a>
                 </div>

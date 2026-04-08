@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import "./App.css";
-import Header from "./components/layout/header";
-import MessageContent from "./components/layout/messagesContent";
+import Header from "./components/layout/Header";
+import MessageContent from "./components/layout/MessageContent";
 import Sidebar from "./components/layout/sideBar";
 import Login from "./components/Login";
 import { UseAuth } from "./context/authProvider";

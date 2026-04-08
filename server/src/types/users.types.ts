@@ -29,4 +29,6 @@ export type UserEmail =
   | { email: string; username?: never }
   | { username: string; email?: never };
 
+
+export type UserId = Pick<UserTypes, "id">;
 export type UserResponse = Partial<Omit<UserTypes, "password">>;

@@ -1,6 +1,10 @@
 import pool from "../configs/db";
 import { checkInclusivity } from "../types/conversation_members.types";
-import { conversationIdType } from "../types/conversations.type";
+import {
+  conversationIdType,
+  conversationTypes,
+} from "../types/conversations.type";
+import { UserId } from "../types/users.types";
 
 // export const StoreConversationMember = async (
 //   con_id: string,
@@ -15,8 +19,35 @@ export const checkIfIncluded = async (data: checkInclusivity) => {
     data.conversation_id,
     data.user_id,
   ]);
-  console.log(rows);
   return rows.length > 0 ? rows : false;
+};
+
+export const fetchUserConversations = async (user: UserId) => {
+  try {
+    const query = `SELECT c.*, json_agg(
+    json_build_object(
+    'id',u.id,
+    'firstname',u.firstname,
+    'lastname',u.lastname,
+    'email',u.email)
+    ) as members
+     FROM conversations c
+     JOIN conversation_members cm
+     ON c.id = cm.conversation_id
+     JOIN users u
+     ON u.id = cm.user_id
+     WHERE c.id IN (
+        SELECT conversation_id
+        FROM conversation_members
+        WHERE user_id = $1::uuid AND u.id != $1::uuid
+     )
+     GROUP BY c.id;
+    `;
+    const { rows } = await pool.query<conversationTypes>(query, [user]);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const fetchConvMembers = async (conversation_id: conversationIdType) => {

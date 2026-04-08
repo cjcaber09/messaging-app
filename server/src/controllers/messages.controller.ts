@@ -14,6 +14,7 @@ export const sendMessage = async (
 ) => {
   const { conversation_id, parent_id, content, message_type } = req.body;
   const sender_id = req.user.id;
+  console.log(req.user);
   const hasConversation = await getConversationById(conversation_id);
   if (!hasConversation) sendError(res, [], "No current Conversation ");
   const message = await storeMessage({

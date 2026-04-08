@@ -3,7 +3,13 @@ import { request, Response } from "express";
 import { UserRegisterType, UserAuthType } from "../types/users.types";
 import { GetUserByEmailModel, StoreUserModel } from "../models/users.model";
 import bcrypt from "bcryptjs";
-import { generateToken, removePassword } from "../utils/utils";
+import {
+  decodeToken,
+  generateToken,
+  removePassword,
+  sendError,
+  sendSuccessResponse,
+} from "../utils/utils";
 
 export const getUsers = async (req: QueryRequest<{}>, res: Response) => {
   // Get the data,
@@ -20,7 +26,7 @@ export const loginUser = async (
     email ? { email } : { username: username! },
   );
   if (!found)
-    return res.status(403).send("Email or username password didnot match.");
+    return sendError(res, [], "Email or username password didnot match.", 403);
   //   Login and create a token
   let signed = bcrypt.compare(password, found.password);
   if (!signed) return res.status(403).send("Invalid email or password.");
@@ -71,4 +77,12 @@ export const createUser = async (
 
 export const authUser = async (req: AuthRequest, res: Response) => {
   const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const decoded = await decodeToken(token);
+
+    sendSuccessResponse(res, decoded, 200);
+  } catch (error) {}
 };

@@ -1,9 +1,17 @@
 import { Input } from "./ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, type RegisterData } from "../types/auth.types";
+import {
+  registerSchema,
+  type RegisterData,
+  type UserData,
+} from "../types/auth.types";
+import { authApi } from "../api/auth.api";
+import { UseAuth } from "../context/authProvider";
+import { redirect } from "react-router";
 
 export default function Register() {
+  const { setAuth } = UseAuth();
   const {
     register,
     handleSubmit,
@@ -13,9 +21,13 @@ export default function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  const formSubmit = (data: RegisterData) => {
-    console.log(data);
+  const formSubmit = async (data: RegisterData) => {
+    const registered = await authApi.register(data);
+    const result: { user: UserData } = registered.data;
+    setAuth(result.user);
+    redirect("/");
   };
+
   return (
     <>
       <div className="h-[100svh] items-center place-items-center content-center">

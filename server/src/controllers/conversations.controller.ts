@@ -4,6 +4,7 @@ import {
   CheckConversation,
   StoreConversation,
 } from "../models/conversations.model";
+import { fetchUserConversations } from "../models/conversation_member.model";
 
 export const createConversation = async (req: Request, res: Response) => {
   let type = "direct";
@@ -18,4 +19,10 @@ export const createConversation = async (req: Request, res: Response) => {
   if (exist) sendError(res, [], "Conversation already exist.", 404);
   const conversation = await StoreConversation(type, members);
   sendSuccessResponse(res, conversation);
+};
+
+export const fetchConversations = async (req: Request, res: Response) => {
+  const { user } = req;
+  const conversations = await fetchUserConversations(user.id);
+  sendSuccessResponse(res, conversations, 200);
 };
