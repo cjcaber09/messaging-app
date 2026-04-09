@@ -16,7 +16,7 @@ export default function MessageBubble({
   return (
     <>
       <div
-        className={`message-bubble ${direction}-direction rounded-xl mt-1 `}
+        className={`message-bubble ${direction}-direction rounded-xl mt-1 whitespace-pre-wrap`}
         style={{ background: styling.backGround }}
       >
         <p className="text-sm">{content}</p>

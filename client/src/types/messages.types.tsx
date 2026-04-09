@@ -1,3 +1,9 @@
+import z from "zod";
+
+export const messageSchema = z.object({
+  content: z.string().min(1, { message: "Please enter a message" }),
+});
+
 export interface messageTypes {
   id: string;
   conversation_id: string;
@@ -12,3 +18,11 @@ export interface messageTypes {
   deleted_at?: Date;
   conversation_name: string;
 }
+
+export interface sendMessageTypes {
+  conversation_id: string;
+  content: string;
+  message_type: "text" | "group";
+}
+
+export type MessageForm = z.infer<typeof messageSchema>;

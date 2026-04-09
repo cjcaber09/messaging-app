@@ -13,6 +13,7 @@ type InputProps<T extends FieldValues> = {
   errors: FieldErrors<T>;
   placeholder?: string;
   type?: string;
+  eventHandle?: () => void;
 };
 
 export const Input = <T extends FieldValues>({
@@ -22,15 +23,29 @@ export const Input = <T extends FieldValues>({
   errors,
   placeholder,
   type,
+  eventHandle,
 }: InputProps<T>) => {
   return (
     <>
       <label className="text-sm text-gray-300">{label}</label>
-      <input
-        type={type ? type : "text"}
-        {...register(name)}
-        placeholder={placeholder}
-      />
+      {type !== "textarea" ? (
+        <input
+          type={type ? type : "text"}
+          {...register(name)}
+          placeholder={placeholder}
+        />
+      ) : (
+        <textarea
+          {...register(name)}
+          placeholder={placeholder}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              eventHandle?.();
+            }
+          }}
+        ></textarea>
+      )}
       {errors[name] && (
         <p className="text-xs text-red-900">
           {errors[name]?.message as string}
