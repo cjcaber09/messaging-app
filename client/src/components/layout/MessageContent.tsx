@@ -22,8 +22,9 @@ export default function MessageContent() {
     (state: RootState) => state.conversations.conversation,
   );
   const messages = useSelector((state: RootState) => state.messages.messages);
-
+  
   const dispatch = useDispatch();
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -35,13 +36,9 @@ export default function MessageContent() {
       dispatch(loadMessages(messages.data));
     })();
   }, [conversation, dispatch]);
-
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
+  setTimeout(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
+  }, 200);
   // zod
   const {
     register,
@@ -93,16 +90,18 @@ export default function MessageContent() {
               </div>
               <div className="spacer my-4"></div>
             </div>
-            <div className="messages overflow-y-auto my-4 flex-1 content-end">
+            <div className="messages relative overflow-auto my-4 flex-1 content-end">
               {messages.length > 0 && user !== null
-                ? messages.map((a) => {
+                ? messages.map((a, index) => {
                     return (
                       <MessageBubble
                         direction={
-                          user.id === a.sender_id ? "receiving" : "sending"
+                          user.id === a.sender_id ? "sending" : "receiving"
                         }
-                        content={a.content}
+                        message={a}
+                        isDeleted={!a.deleted_at ? false : true}
                         key={a.id}
+                        isLast={index === messages.length - 1 ? true : false}
                       ></MessageBubble>
                     );
                   })

@@ -16,6 +16,7 @@ export interface messageTypes {
   edited_at?: Date;
   created_at?: Date;
   deleted_at?: Date;
+  reply?: messageTypes;
   conversation_name: string;
 }
 

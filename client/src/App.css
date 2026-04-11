@@ -37,16 +37,16 @@
   @apply flex flex-col gap-4 min-h-[200px]  justify-center
 }
 .message-bubble{
-  @apply max-w-[400px] min-w-[100px] text-left py-2 px-6;
+  @apply max-w-[350px] min-w-[100px] text-left py-2 px-6;
 }
 .message-actions{
   @apply flex flex-row gap-4 border-t-1 pt-4 border-white/10
 }
 .sending-direction{
-  @apply justify-self-start;
+  @apply justify-self-end;
 }
 .receiving-direction{
-  @apply justify-self-end;
+  @apply justify-self-start;
 }
 
 /* sidebar */
@@ -66,6 +66,11 @@
   @apply mr-auto;
 }
 
+/* Menu */
+/*  */
+.menu-link {
+  @apply px-4 py-2 hover:bg-gray-200
+}
 
 
 /* Scroll */
@@ -85,6 +90,9 @@
 
 .messages::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.40);
+}
+.message-reply {
+  @apply px-2 rounded-b-none;
 }
 /* COMPONENTS */
 

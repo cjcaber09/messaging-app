@@ -3,11 +3,17 @@ import { sendError, sendSuccessResponse } from "../utils/utils";
 // types
 import { BodyRequest, ParamRequest } from "../types/express";
 import { conversationIdType } from "../types/conversations.type";
-import { messageCreate } from "../types/messages.types";
+import { messageCreate, messageId } from "../types/messages.types";
 // models
-import { storeMessage, fetchMessages } from "../models/messages.model";
+import {
+  storeMessage,
+  fetchMessages,
+  softDeleteById,
+} from "../models/messages.model";
 import { getConversationById } from "../models/conversations.model";
 import { checkIfIncluded } from "../models/conversation_member.model";
+
+
 export const sendMessage = async (
   req: BodyRequest<messageCreate>,
   res: Response,
@@ -53,6 +59,14 @@ export const editMessage = (req: Request, res: Response) => {
   //
 };
 
-export const deleteMessage = (req: Request, res: Response) => {
-  //
+export const deleteMessage = async (
+  req: ParamRequest<messageId>,
+  res: Response,
+) => {
+  // soft delete the message
+  const id = req.params.message_id;
+  const sender_id = req.user.id;
+  const isDeleted = await softDeleteById({ id, sender_id });
+  if (!isDeleted) sendError(res, [], "Error deleting message.");
+  else sendSuccessResponse(res, [], 200, "Sucess deleting message.");
 };
