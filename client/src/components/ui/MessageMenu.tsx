@@ -21,11 +21,9 @@ export default function MessageMenu({
         setOpen(false);
       }
     };
-
     if (open) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };

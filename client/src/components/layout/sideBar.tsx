@@ -8,6 +8,7 @@ import Modal from "../ui/Modal";
 import { createPortal } from "react-dom";
 import { Input } from "../ui/Input";
 import { useForm } from "react-hook-form";
+import TagInput from "../ui/TagInput";
 export default function Sidebar() {
   const [conversations, setConversations] = useState<
     conversationsWithMembersType[]
@@ -53,29 +54,38 @@ export const CreateConv = () => {
   const {
     register,
     formState: { errors },
+    handleSubmit,
+    control,
   } = useForm();
+
+  const sendMessage = (data: object) => {
+    console.log(data);
+  };
   return (
     <>
       <div>
-        <div className="mt-4">
-          <Input
-            name="emails"
-            label="email"
-            register={register}
-            errors={errors}
-            placeholder="example1@gmail.com, example2@gmail.com"
-          ></Input>
-        </div>
-        <div className="mt-4">
-          <Input
-            name="message"
-            label="Message"
-            type="textarea"
-            register={register}
-            errors={errors}
-            placeholder="Type your message here"
-          ></Input>
-        </div>
+        <form onSubmit={handleSubmit(sendMessage)}>
+          <div className="mt-4">
+            <TagInput
+              name="emails"
+              control={control}
+              placeholder="example1@gmail.com, example2@gmail.com"
+            ></TagInput>
+          </div>
+          <div className="mt-4">
+            <Input
+              name="message"
+              label="Message"
+              type="textarea"
+              register={register}
+              errors={errors}
+              placeholder="Type your message here"
+            ></Input>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Send message
+          </button>
+        </form>
       </div>
     </>
   );
