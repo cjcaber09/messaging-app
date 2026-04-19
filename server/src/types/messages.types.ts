@@ -14,7 +14,7 @@ export interface messageTypes {
   id: string;
   conversation_id: string;
   sender_id: string;
-  parent_id: string;
+  parent_id: string | null;
   content: string;
   message_type: "text" | "image";
   status: string;

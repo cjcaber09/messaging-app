@@ -1,10 +1,13 @@
 export default function Modal({
   ModalBody,
   ModalFooter,
+  onClose,
 }: {
   ModalBody: React.ReactNode;
   ModalFooter?: React.ReactNode;
+  onClose: () => void;
 }) {
+
   return (
     <>
       <div className="w-[100svw] absolute h-[100svh] top-0 left-0 bg-black/20 pt-14 backdrop-blur-md">
@@ -13,7 +16,11 @@ export default function Modal({
             <div className="flex-1">
               <h3 className="font-bold ">Create new message</h3>
             </div>
-            <div className="ml-auto">X</div>
+            <div className="ml-auto" onClick={onClose}>
+              <button className="btn btn-ghost rounded-full w-8 h-8 flex items-center justify-center">
+                x
+              </button>
+            </div>
           </div>
           <div className="modal-content">{ModalBody}</div>
           <div className="modal-footer">{ModalFooter}</div>

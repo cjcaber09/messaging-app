@@ -20,9 +20,8 @@ export const sendMessage = async (
 ) => {
   const { conversation_id, parent_id, content, message_type } = req.body;
   const sender_id = req.user.id;
-  console.log(req.user);
   const hasConversation = await getConversationById(conversation_id);
-  if (!hasConversation) sendError(res, [], "No current Conversation ");
+  if (!hasConversation) return sendError(res, [], "No current Conversation ");
   const message = await storeMessage({
     conversation_id,
     sender_id,
@@ -49,7 +48,7 @@ export const getMessages = async (
       "You are not authorized to access this messages",
     );
   const hasConversation = await getConversationById(conversation_id);
-  if (!hasConversation) sendError(res, [], "No current Conversation ");
+  if (!hasConversation) return sendError(res, [], "No current Conversation ");
   const messages = await fetchMessages(conversation_id);
   // message response
   sendSuccessResponse(res, messages, 200);
@@ -67,6 +66,6 @@ export const deleteMessage = async (
   const id = req.params.message_id;
   const sender_id = req.user.id;
   const isDeleted = await softDeleteById({ id, sender_id });
-  if (!isDeleted) sendError(res, [], "Error deleting message.");
-  else sendSuccessResponse(res, [], 200, "Sucess deleting message.");
+  if (!isDeleted) return sendError(res, [], "Error deleting message.");
+  else return sendSuccessResponse(res, [], 200, "Success deleting message.");
 };

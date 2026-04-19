@@ -15,6 +15,16 @@ export const GetUserByEmailModel = async (whereClause: UserEmail) => {
   }
 };
 
+export const GetUserByIdModel = async (id: string) => {
+  try {
+    const query = `SELECT * FROM users WHERE id = $1`;
+    const results = await pool.query(query, [id]);
+    let user = results.rows[0];
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 export const StoreUserModel = async (userData: UserRegisterType) => {
   try {
     // Fields to exclude from INSERT

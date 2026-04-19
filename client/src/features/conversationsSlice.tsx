@@ -40,10 +40,13 @@ export const conversationsSlice = createSlice({
       state.conversation =
         state.items.find((a) => a.id === action.payload?.id) ?? null;
     },
+    fetchConversations: (state, action: PayloadAction<conversationsWithMembersType[]>) => {
+      state.items = action.payload;
+    }
   },
 });
 
-export const { setConversations, setActiveConversation, getItemById } =
+export const { setConversations, setActiveConversation, getItemById, fetchConversations } =
   conversationsSlice.actions;
 
 export default conversationsSlice.reducer;

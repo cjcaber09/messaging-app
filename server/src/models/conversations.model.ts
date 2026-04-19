@@ -2,9 +2,6 @@ import pool from "../configs/db";
 import { QueryResult } from "pg";
 import { conversationIdType } from "../types/conversations.type";
 import { MembersTypes } from "../types/conversation_members.types";
-interface UserIdObject {
-  user_id: string;
-}
 
 export const StoreConversation = async (
   type: string,
@@ -27,7 +24,8 @@ export const StoreConversation = async (
       ...val,
     ]);
     await pool.query("COMMIT");
-    return conversation_members;
+    // return the created conversation with its members
+    return { ...rows[0], members: conversation_members.rows };
   } catch (error) {
     await pool.query("ROLLBACK");
     throw error;

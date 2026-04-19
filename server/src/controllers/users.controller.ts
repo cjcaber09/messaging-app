@@ -26,7 +26,7 @@ export const loginUser = async (
     email ? { email } : { username: username! },
   );
   if (!found)
-    return sendError(res, [], "Email or username password didnot match.", 403);
+    return sendError(res, [], "Email or username password did not match.", 403);
   //   Login and create a token
   let signed = bcrypt.compare(password, found.password);
   if (!signed) return res.status(403).send("Invalid email or password.");
@@ -84,5 +84,5 @@ export const authUser = async (req: AuthRequest, res: Response) => {
     const decoded = await decodeToken(token);
 
     sendSuccessResponse(res, decoded, 200);
-  } catch (error) {}
+  } catch (error) { }
 };

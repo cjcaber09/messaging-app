@@ -1,31 +1,33 @@
 import { useState, type KeyboardEvent } from "react";
-import { useController, type Control } from "react-hook-form";
+import { useController, type Control, type FieldValues, type Path, type PathValue } from "react-hook-form";
 
-export default function TagInput({
+type TagInputProps<T extends FieldValues> = {
+  name: Path<T>;
+  control: Control<T>;
+  placeholder?: string;
+};
+
+export default function TagInput<T extends FieldValues>({
   name,
   control,
   placeholder,
-}: {
-  name: string;
-  control: Control;
-  placeholder?: string;
-}) {
+}: TagInputProps<T>) {
   const [inputVal, setInputVal] = useState("");
-  const { field } = useController({ name, control, defaultValue: [] as [] });
+  const { field } = useController({ name, control, defaultValue: [] as PathValue<T, typeof name> });
+
+  const tags: { email: string }[] = field.value ?? [];
 
   const addTag = () => {
     const val = inputVal.trim().replace(/,$/, "");
-    if (!val || field.value.includes(val)) return;
-    if (!isValidEmail(val)) {
-      setInputVal("");
-      return;
-    }
-    field.onChange([...field.value, val]);
+    if (!val) return;
+    if (!isValidEmail(val)) { setInputVal(""); return; }
+    if (tags.some((t) => t.email === val)) { setInputVal(""); return; }
+    field.onChange([...tags, { email: val }]);
     setInputVal("");
   };
 
   const removeTag = (index: number) => {
-    field.onChange(field.value.filter((_: string, i: number) => i !== index));
+    field.onChange(tags.filter((_, i) => i !== index));
   };
 
   const isValidEmail = (email: string) =>
@@ -36,22 +38,18 @@ export default function TagInput({
       e.preventDefault();
       addTag();
     } else if (e.key === "Backspace" && !inputVal) {
-      removeTag(field.value.length - 1);
+      removeTag(tags.length - 1);
     }
   };
 
   return (
     <div className="flex flex-wrap gap-1.5 items-center border border-gray-600 rounded-md px-2.5 py-1.5 min-h-[44px] bg-white/20 border-white/20">
-      {field.value.map((tag: string, i: number) => (
+      {tags.map((tag, i) => (
         <span
           key={i}
-          className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full ${
-            isValidEmail(tag)
-              ? "bg-blue-900 text-blue-200"
-              : "bg-red-900 text-red-200"
-          }`}
+          className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-blue-900 text-blue-200"
         >
-          {tag}
+          {tag.email}
           <button
             type="button"
             onClick={() => removeTag(i)}
@@ -66,9 +64,95 @@ export default function TagInput({
         onChange={(e) => setInputVal(e.target.value)}
         onKeyDown={onKeyDown}
         onBlur={addTag}
-        placeholder={field.value.length === 0 ? placeholder : ""}
+        placeholder={tags.length === 0 ? placeholder : ""}
         className="flex-1 min-w-[140px] outline-none text-sm bg-transparent text-gray-100"
       />
     </div>
   );
 }
+
+// import { useState, type KeyboardEvent } from "react";
+// import {
+//   useController,
+//   type Control,
+//   type FieldValues,
+//   type Path,
+//   type PathValue,
+// } from "react-hook-form";
+
+// type Props<T extends FieldValues> = {
+//   name: Path<T>;
+//   control: Control<T>;
+//   placeholder?: string;
+// };
+
+// export default function TagInput<T extends FieldValues>({
+//   name,
+//   control,
+//   placeholder,
+// }: Props<T>) {
+//   const [inputVal, setInputVal] = useState("");
+
+//   const { field } = useController({
+//     name,
+//     control,
+//     defaultValue: [] as PathValue<T, typeof name>,
+//   });
+
+//   const isValidEmail = (email: string) =>
+//     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+//   const addTag = () => {
+//     const val = inputVal.trim().replace(/,$/, "");
+//     if (!val || field.value.includes(val)) return;
+
+//     if (!isValidEmail(val)) {
+//       setInputVal("");
+//       return;
+//     }
+
+//     field.onChange([...field.value, val]);
+//     setInputVal("");
+//   };
+
+//   const removeTag = (index: number) => {
+//     field.onChange(field.value.filter((_: string, i: number) => i !== index));
+//   };
+
+//   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+//     if (["Enter", ",", " "].includes(e.key)) {
+//       e.preventDefault();
+//       addTag();
+//     } else if (e.key === "Backspace" && !inputVal) {
+//       removeTag(field.value.length - 1);
+//     }
+//   };
+
+//   return (
+//     <div className="flex flex-wrap gap-1.5 items-center border border-gray-600 rounded-md px-2.5 py-1.5 min-h-[44px] bg-white/20 border-white/20">
+//       {field.value.map((tag: string, i: number) => (
+//         <span
+//           key={i}
+//           className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full ${isValidEmail(tag)
+//             ? "bg-blue-900 text-blue-200"
+//             : "bg-red-900 text-red-200"
+//             }`}
+//         >
+//           {tag}
+//           <button type="button" onClick={() => removeTag(i)}>
+//             ✕
+//           </button>
+//         </span>
+//       ))}
+
+//       <input
+//         value={inputVal}
+//         onChange={(e) => setInputVal(e.target.value)}
+//         onKeyDown={onKeyDown}
+//         onBlur={addTag}
+//         placeholder={field.value.length === 0 ? placeholder : ""}
+//         className="flex-1 min-w-[140px] outline-none text-sm bg-transparent text-gray-100"
+//       />
+//     </div>
+//   );
+// }

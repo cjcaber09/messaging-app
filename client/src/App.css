@@ -75,20 +75,20 @@
 
 /* Scroll */
 /* ── Custom Scrollbar ── */
-.messages::-webkit-scrollbar {
+.contacts::-webkit-scrollbar,.messages::-webkit-scrollbar {
   width: 6px;
 }
 
-.messages::-webkit-scrollbar-track {
+.contacts::-webkit-scrollbar-track,.messages::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.messages::-webkit-scrollbar-thumb {
+.contacts::-webkit-scrollbar-thumb,.messages::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.25);
   border-radius: 100px;
 }
 
-.messages::-webkit-scrollbar-thumb:hover {
+.contacts::-webkit-scrollbar-thumb:hover,.messages::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.40);
 }
 .message-reply {
